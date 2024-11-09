@@ -160,4 +160,76 @@ SELECT pnum, COUNT(PNUM), SUM(horas) FROM trabalha_no;
 
 -- 28)
 
+SELECT AVG(horas) FROM trabalha_no
+WHERE proj = projeto.pnum
+GROUP BY emp
+HAVING COUNT(*) > 2;
 
+-- 29)
+
+SELECT * FROM trabalha_no
+GROUP BY pnum
+HAVING COUNT(*) > AVG(EMP);
+
+-- 30)
+
+UPDATE departamento
+SET dlocal = "Caribe"
+WHERE name = "D5";
+
+-- 31)
+
+SELECT * FROM empregados
+WHERE salario > SUM((
+		SELECT emp FROM trabalha_no
+		WHERE projeto.name = "ALGORITMOS" AND proj = projeto.dnum;
+));
+
+-- 32)
+
+SELECT * FROM empregados
+WHERE salario > (
+		SELECT emp FROM trabalha_no
+		WHERE projeto.nome = "CONSTRUCOES" AND proj = projeto.dnum;
+);
+
+-- 33)
+
+SELECT * FROM empregados
+WHERE salario > (
+		SELECT salario from empregados
+		WHERE cpf = "1111";
+);
+
+-- 34)
+
+SELECT * FROM empregados
+GROUP BY dept;
+
+-- 35)
+
+SELECT * FROM dependentes
+WHERE PARENTESCO IN ("FILHO", "FILHA");
+
+-- 36)
+
+SELECT cpf, nome, count(nomedepend) FROM empregados, dependentes
+GROUP BY nomedepend 
+HAVING COUNT(*) >= COUNT((
+		SELECT * FROM empregados
+		INNER JOIN dependentes ON empregados.cpf = dependentes.emp;
+));
+
+-- 37)
+
+SELECT nome, count(nomedepend) FROM empregados, dependentes
+GROUP BY nomedepend 
+HAVING COUNT(*) >= COUNT((
+		SELECT * FROM empregados
+		INNER JOIN dependentes ON empregados.cpf = dependentes.emp;
+));
+
+-- 38)
+
+SELECT empregado.nome, projeto.pnome, trabalha_no.horas FROM empregado, projeto, trabalha_no
+WHERE trabalha_no.emp = empregado.nome AND trabalha_no.proj = projeto.dnum;
