@@ -47,10 +47,10 @@ join dependente on empregado.cpf = dependente.empregado
 join trabalha_no on empregado.cpf = trabalha_no.empregado
 where trabalha_no.horas > 40;
 
--- produtivos <= o' horas > 40 (trabalha_no)
+-- produtivos <= α  horas > 40 (trabalha_no)
 -- nomes <= produtivos |X| empregados = cpf empregado
 -- dependentes <= nomes |X| cpf = empregado dependente
--- II nome, data_nascimento (dependentes)
+-- π nome, data_nascimento (dependentes)
 
 
 
@@ -60,9 +60,9 @@ select nome, gerente from departamento
 join empregado on empregado.departamento = departamento.id
 where avg(empregado.salario) > 10000;
 
--- ricos <= o' average(salario) > 1000 (empregado)
+-- ricos <= α  average(salario) > 1000 (empregado)
 -- departamentos <= ricos |X| departamento = id departamento
--- II nome, gerente (departamento)
+-- π nome, gerente (departamento)
 
 
 -- f)
@@ -72,7 +72,7 @@ join departamento on projeto.departamento = departamento.id
 join local on departamento.id = local.departamento
 where local.local_departamento is not projeto.local;
 
--- divergentes <= o' local is not (o' local_departamento (local)) (projeto)
+-- divergentes <= α  local is not (α  local_departamento (local)) (projeto)
 -- localizações <= divergentes |X| departamento = id departamento
 -- atribuições <= localizações |X| id = departamento projeto
--- II nome (atribuições)
+-- π nome (atribuições)
