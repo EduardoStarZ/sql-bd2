@@ -36,7 +36,8 @@ CREATE TABLE cliente_vip_rel (
 
 CREATE TABLE pedido_rel (
 		`codped` INT4 PRIMARY KEY,
-		`data_pedido` DATETIME NOT NULL,
+		`data_pedido` TEXT NOT NULL, -- SQLite não possui um tipo especial para datas, ao invés disso, usamos funções
+		`data_entraga` TEXT NOT NULL, -- internas para criar datas em strings
 		`rua` VARCHAR(100) NOT NULL,
 		`cidade` VARCHAR(100) NOT NULL,
 		`estado` CHAR(2) NOT NULL,
@@ -93,4 +94,49 @@ INSERT INTO TABLE mercadoria values (9, 23.00, 1.5489);
 
 -- D)
 
+INSERT INTO TABLE pedido_rel VALUES 
+(0, "now", datetime("2025-06-11T11:30:00"), "Rua dos girássois", "São Sebastião", "DF", "0986731245", 3),
+(1, "now", datetime("2025-06-11T11:30:00"), "Rua dos girássois", "São Sebastião", "DF", "0986731245", 3),
+(2, "now", datetime("2025-06-15T15:40:00"), "Rua dos girássois", "São Sebastião", "DF", "0986731245", 3),
+(3, "now", datetime("2024-12-11T08:10:00"), "Rua do pixe", "Vicente pires", "DF", "99986754", 2),
+(4, "now", datetime("2024-12-24T15:35:00"), "Rua do pixe", "Vicente pires", "DF", "99986754", 2),
+(5, "now", datetime("2024-12-28T19:30:00"), "Rua do pixe", "Vicente pires", "DF", "99986754", 2),
+(6, "now", datetime("2025-01-06T11:30:00"), "Rua das constâncias", "Paranoá", "DF", "7584638920", 4);
 
+
+-- 3)
+
+-- A)
+
+SELECT * FROM mercadoria
+WHERE icms BETWEEN 10 AND 50;
+
+-- B) 
+
+SELECT nome, codcli, FONE1, FONE2, FONE3 from cliente_rel
+WHERE estado = "CE" AND cidade = "Icó";
+
+-- C)
+
+SELECT * FROM cliente_vip_rel
+WHERE pedido_rel.codcli = cliente_vip_rel.codcli;
+
+-- D)
+
+SELECT * FROM mercadoria
+WHERE mercadoria.codmer IS NOT pedido_rel.codmer;
+
+-- E)
+
+SELECT mercadoria.codmer, mercadoria.preco FROM mercadoria
+WHERE cliente_especial_rel.codcli = cliente_mercadoria.codcli;
+
+-- F)
+
+SELECT * FROM pedidos_rel 
+WHERE cep IS NOT cliente_rel.cep AND codcli = pedidos_rel.codcli;
+
+-- G) 
+
+SELECT * FROM mercadoria
+WHERE data_pedido LIKE "2014%" AND pedido_rel.codmer = codmer;
